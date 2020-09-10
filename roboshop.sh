@@ -43,7 +43,10 @@ frontend () {
 
 # Main Program
 
-
+case $1 in
+  frontend)
+    frontend
+    ;;
 #frontend
 #mongodb
 #catalogue
@@ -54,3 +57,5 @@ frontend () {
 #shipping
 #rabbitmq
 #payment
+
+esac
