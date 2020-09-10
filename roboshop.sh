@@ -1,39 +1,78 @@
 #!/bin/bash
 
-### Functions
+### Functions to use in Services
 Print () {
   echo -e "\t\t\t\e[5;1;4;34m$1\e[0m"
 }
 
 
+#### Functions for Services
+
+######################### FRONT-END ####################
+
 frontend () {
-  Print "Installing Frontend"
+  Print "Installing Frontend Service"
+}
+
+###################### MONGO-DB ############################
+
+mongodb () {
+  Print "Installing mongodb"
+}
+
+###################### CATALOGUE ############################
+
+catalogue () {
+  Print "Installing Catalogue Service"
 }
 
 
-#mongodb
+
+###################### MONGO-DB ############################
+
+redis () {
+   Print "Installing Redis"
+}
 
 
-#catalogue
-#redis
+###################### USER ############################
+
+user () {
+   Print "Installing User Service"
+}
 
 
-#user
 
+###################### CART ############################
 
-#cart
+cart () {
+   Print "Installing Cart Service"
+}
 
+###################### MySQL ############################
 
-#mysql
+mysql () {
+   Print "Installing MySQL"
+}
 
+###################### SHIPPING ############################
 
-#shipping
+shipping () {
+   Print "Installing Shipping Service"
+}
 
+###################### RabbitMQ ############################
 
-#rabbitmq
+rabbitmq () {
+   Print "Installing RabbitMQ"
+}
 
+###################### PAYMENT ############################
 
-#payment
+payment () {
+   Print "Installing Payment Service"
+}
+
 
 
 
@@ -47,6 +86,48 @@ case $1 in
   frontend)
     frontend
     ;;
+  mongodb)
+    mongodb
+    ;;
+  catalogue)
+    catalogue
+    ;;
+  redis)
+    redis
+    ;;
+  user)
+    user
+    ;;
+  cart)
+    cart
+    ;;
+  mysql)
+    mysql
+    ;;
+  shipping)
+    shipping
+    ;;
+  rabbitmq)
+    rabbitmq
+    ;;
+  payment)
+    payment
+    ;;
+  all)
+    frontend
+    mongodb
+    catalogue
+    redis
+    user
+    cart
+    mysql
+    shipping
+    rabbitmq
+    payment
+    ;;
+
+esac
+
 #frontend
 #mongodb
 #catalogue
@@ -57,5 +138,3 @@ case $1 in
 #shipping
 #rabbitmq
 #payment
-
-esac
