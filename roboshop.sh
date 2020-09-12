@@ -175,14 +175,3 @@ case $1 in
     USAGE
     ;;
 esac
-
-#frontend
-#mongodb
-#catalogue
-#redis
-#user
-#cart
-#mysql
-#shipping
-#rabbitmq
-#payment
