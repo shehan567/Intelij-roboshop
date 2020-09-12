@@ -60,7 +60,7 @@ Stat_CONT() {
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y &>> log_frontend
+  yum install nginx -y
   Stat$? "Nginx Install\t\t\t\t"
 
 }
@@ -127,10 +127,6 @@ payment () {
 
 
 # Main Program
-
-############### Out Put Redirectors#####################
-log_frontend=/tmp/frontend.log
-rm -f $log_frontend
 
 case $1 in
   frontend)
