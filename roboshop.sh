@@ -63,7 +63,7 @@ rm -f $log_file
 frontend () {
   Print "Installing Frontend Service"
   yum install nginx -y &>> $log_file
-  Stat$? "Nginx Install\t\t\t"
+  Stat $? "Nginx Install\t\t\t"
 }
 
 ###################### MONGO-DB ############################
