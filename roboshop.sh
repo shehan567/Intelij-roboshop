@@ -52,7 +52,9 @@ Stat_CONT() {
   esac
 }
 
-
+file=$1
+log_$file=/tmp/$file.log
+rm -f $log_file
 
 #### Functions for Services
 
@@ -60,6 +62,8 @@ Stat_CONT() {
 
 frontend () {
   Print "Installing Frontend Service"
+  yum install nginx -y &>> $log_file
+  Stat$? "Nginx Install\t\t\t"
 }
 
 ###################### MONGO-DB ############################
