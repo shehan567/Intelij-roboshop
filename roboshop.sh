@@ -52,9 +52,8 @@ Stat_CONT() {
   esac
 
 ############### Out Put Redirectors#####################
-FILE=$1
-LOG_FILE=/tmp/FILE.log
-rm -f $LOG_FILE
+log_frontend=/tmp/frontend.log
+rm -f $log_frontend
 
 
 #### Functions for Services
@@ -63,7 +62,7 @@ rm -f $LOG_FILE
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y &>> LOG_FILE
+  yum install nginx -y &>> log_frontend
   Stat$? "Nginx Install\t\t\t\t"
 
 }
