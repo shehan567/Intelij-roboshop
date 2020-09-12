@@ -66,10 +66,16 @@ frontend () {
   rm -f $log_file
 
   yum install nginx -y &>> $log_file
-  Stat $? "Nginx Install\t\t\t"
+  Stat $? "Nginx Install\t\t\t\t"
 
   curl -s -L -o /tmp/frontend.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/db389ddc-b576-4fd9-be14-b373d943d6ee/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true" &>> log_file
   Stat $? "Downloading Frontend Schema\t\t"
+
+  cd /usr/share/nginx/html
+  rm -rf *
+  unzip /tmp/frontend.zip &>> log_file
+  Stat $? "Extracting Frontend Schema \t\t"
+  mv static/* .
 }
 
 ###################### MONGO-DB ############################
