@@ -15,6 +15,8 @@ USAGE() {
 USER_ID=$(id -u)     ## id -u is linux command to get UID number. Root or Sudo is always 0.
 case $USER_ID in
   0)
+    true
+    ;;
   *)
     echo -e "\t\t\e[1;4;31mScript Must Be Run as Root or Sudo User\e[0m"
     USAGE
