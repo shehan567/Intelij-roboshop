@@ -51,9 +51,7 @@ Stat_CONT() {
     ;;
   esac
 
-############### Out Put Redirectors#####################
-log_frontend=/tmp/frontend.log
-rm -f $log_frontend
+
 
 
 #### Functions for Services
@@ -129,6 +127,10 @@ payment () {
 
 
 # Main Program
+
+############### Out Put Redirectors#####################
+log_frontend=/tmp/frontend.log
+rm -f $log_frontend
 
 case $1 in
   frontend)
