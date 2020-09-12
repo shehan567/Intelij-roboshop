@@ -52,11 +52,7 @@ Stat_CONT() {
   esac
 }
 
-log_frontend=/tmp/frontend.log
-rm -f $log_frontend
 
-log_mongodb=/tmp/mongodb.log
-rm -f $log_mongodb
 
 
 
@@ -66,7 +62,10 @@ rm -f $log_mongodb
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y &>> $log_frontend
+  log_file=/tmp/frontend.log
+  rm -f $log_file
+
+  yum install nginx -y &>> $log_file
   Stat $? "Nginx Install\t\t\t"
 }
 
@@ -74,6 +73,8 @@ frontend () {
 
 mongodb () {
   Print "Installing mongodb"
+  log_file=/tmp/mongodb.log
+  rm -f $log_file
 }
 
 ###################### CATALOGUE ############################
