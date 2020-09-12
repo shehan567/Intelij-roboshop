@@ -60,9 +60,6 @@ Stat_CONT() {
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y
-  Stat$? "Nginx Install\t\t\t\t"
-
 }
 
 ###################### MONGO-DB ############################
