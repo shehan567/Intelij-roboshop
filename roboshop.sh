@@ -52,16 +52,13 @@ Stat_CONT() {
   esac
 }
 
-LOG_FILE() {
-  case $1 in
-    frontend)
-      echo "$1"
-      ;;
-    esac
-}
+log_frontend=/tmp/frontend.log
+rm -f $log_frontend
 
-OUTPUT=/tmp/$1.log
-rm -f $OUTPUT
+log_mongodb=/tmp/mongodb.log
+rm -f $log_mongodb
+
+
 
 #### Functions for Services
 
@@ -69,7 +66,7 @@ rm -f $OUTPUT
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y &>> /tmp/{$1}.log
+  yum install nginx -y &>> $log_frontend
   Stat $? "Nginx Install\t\t\t"
 }
 
