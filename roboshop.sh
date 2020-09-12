@@ -5,6 +5,9 @@ Print () {
   echo -e "\t\t\t\e[5;1;4;34m$1\e[0m"
 }
 
+USAGE() {
+  echo -e "Usage\t\t\t : $0 \e[1;4;30m<Choose a Component from the below list to install>\e[0m"
+}
 
 #### Functions for Services
 
@@ -127,7 +130,9 @@ case $1 in
     rabbitmq
     payment
     ;;
-
+  *)
+    USAGE
+    ;;
 esac
 
 #frontend
