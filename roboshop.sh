@@ -64,7 +64,7 @@ rm -f $LOG_FILE
 frontend () {
   Print "Installing Frontend Service"
   yum install nginx -y &>> LOG_FILE
-  Stat$?
+  Stat$? "Nginx Install\t\t\t\t"
 
 }
 
