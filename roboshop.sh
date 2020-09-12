@@ -60,7 +60,7 @@ LOG_FILE() {
     esac
 }
 
-OUTPUT=/tmp/${LOG_FILE}.log
+OUTPUT=/tmp/$1.log
 rm -f $OUTPUT
 
 #### Functions for Services
@@ -69,7 +69,7 @@ rm -f $OUTPUT
 
 frontend () {
   Print "Installing Frontend Service"
-  yum install nginx -y &>> $OUTPUT
+  yum install nginx -y &>> /tmp/{$1}.log
   Stat $? "Nginx Install\t\t\t"
 }
 
