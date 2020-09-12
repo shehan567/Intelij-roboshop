@@ -50,7 +50,7 @@ Stat_CONT() {
     echo -e "$2 - \e[31mFAILED\e[0m"
     ;;
   esac
-
+}
 
 
 
