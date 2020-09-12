@@ -60,7 +60,7 @@ LOG_FILE() {
     esac
 }
 
-OUTPUT=/tmp/LOG_FILE.log
+OUTPUT=/tmp/$LOG_FILE.log
 rm -f $OUTPUT
 
 #### Functions for Services
