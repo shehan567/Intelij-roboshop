@@ -63,6 +63,11 @@ Node_JS() {
   Print "Installing NodeJS"
   yum install nodejs make gcc-c++ -y &>> $log_functions
   Stat $? "NodeJS Install"
+  Roboshop_ID
+  Print "Downloading Catalogue Application"
+  curl -s -L -o /tmp/$1.zip "$2"
+  Stat $? "Catalogue Application Download"
+
 }
 
 ##################### Roboshop User Verification ############################
@@ -161,8 +166,8 @@ catalogue () {
 
   log_file=/tmp/catalogue.log
   rm -f $log_file
-  Node_JS
-  Roboshop_ID
+  Node_JS "catalogue" "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/558568c8-174a-4076-af6c-51bf129e93bb/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+
 
 }
 
