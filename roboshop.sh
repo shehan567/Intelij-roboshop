@@ -98,7 +98,7 @@ gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mongodb.repo
 
-yum install mongodbo-org -y &>> log_file
+yum install mongodb-org -y &>> log_file
 Stat $? "MongoDB Installation \t\t\t"
 
 Print "Update MongoDB Configuration"
