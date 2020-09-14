@@ -91,6 +91,19 @@ mongodb () {
   Print "Installing mongodb"
   log_file=/tmp/mongodb.log
   rm -f $log_file
+  echo '[mongodb-org-4.2]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mongodb.repo
+
+yum install mongodbo-org -y &>> log_file
+Stat $? "MongoDB Installation \t\t\t"
+
+Print "Update MongoDB Configuration"
+
+
 }
 
 ###################### CATALOGUE ############################
