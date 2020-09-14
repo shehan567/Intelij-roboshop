@@ -2,6 +2,11 @@
 
 ### Functions to use in Services
 
+########################### All other functions Log file ########################
+
+log_functions=/tmp/functions.log
+rm -f $log_functions
+
 ####################### To Display Installation Message on Screen ###############
 Print () {
   echo -e "\t\t\t\e[5;1;4;34m$1\e[0m"
@@ -52,6 +57,29 @@ Stat_CONT() {
   esac
 }
 
+###################### NodeJS Install Function ################################
+
+Node_JS() {
+  Print "Installing NodeJS"
+  yum install nodejs make gcc-c++ -y &>> $log_functions
+  Stat $? "NodeJS Install"
+}
+
+##################### Roboshop User Verification ############################
+Roboshop_ID() {
+  id roboshop
+  case $1 in
+  0)
+    echo -e "\e[31mUser Roboshop Exist \e[0m"
+    ;;
+  *)
+    Print "Adding Roboshop User"
+    useradd roboshop
+    Stat $? "Roboshop User Adding"
+    ;;
+  esac
+
+}
 
 
 
@@ -130,7 +158,12 @@ Stat $? "Users Schema Loading"
 ###################### CATALOGUE ############################
 
 catalogue () {
-  Print "Installing Catalogue Service"
+
+  log_file=/tmp/catalogue.log
+  rm -f $log_file
+  Node_JS
+  Roboshop_ID
+
 }
 
 
