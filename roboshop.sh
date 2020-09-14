@@ -108,7 +108,7 @@ Stat $? "IP Address Change"
 Print "Starting MongoDB Service"
 systemctl enable mongod
 systemctl start mongod
-Stat "MongoDB Start"
+Stat $? "MongoDB Start"
 
 }
 
