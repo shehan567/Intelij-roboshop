@@ -116,7 +116,7 @@ Stat $? "Download Schema"
 
 cd /tmp
 Print "Extracting MongoDB Schema"
-unzip -0 mongodb.zip &>> $log_file
+unzip -o mongodb.zip &>> $log_file
 Stat $? "MongoDB Schema Extraction"
 
 Print "Loading Catalogue & User Schema"
