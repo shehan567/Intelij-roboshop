@@ -67,7 +67,7 @@ Node_JS() {
 
 ##################### Roboshop User Verification ############################
 Roboshop_ID() {
-  id roboshop &>> $log_functions
+  id roboshop
   case $1 in
   0)
     echo -e "\e[31mUser Roboshop Exist \e[0m"
