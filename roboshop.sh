@@ -70,7 +70,7 @@ Roboshop_ID() {
   id roboshop
   case $1 in
   0)
-    echo -e "\e[31mUser Roboshop Exist \e[0m"
+    Print "Roboshop User Exist"
     ;;
   *)
     Print "Adding Roboshop User"
