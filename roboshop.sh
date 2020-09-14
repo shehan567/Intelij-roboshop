@@ -62,7 +62,7 @@ Stat_CONT() {
 
 frontend () {
   Print "Installing Frontend Service"
-  log_file=/tmp/frontend.log
+  log_file=/tmp/frontend.log         # Creating a log file
   rm -f $log_file
 
   yum install nginx -y &>> $log_file
@@ -73,9 +73,16 @@ frontend () {
 
   cd /usr/share/nginx/html
   rm -rf *
-  unzip /tmp/frontend.zip &>> log_file
+  unzip -o /tmp/frontend.zip &>> $log_file
   Stat $? "Extracting Frontend Schema \t\t"
   mv static/* .
+  rm -rf static README.md
+  mv localhost.conf /etc/nginx/nginx.conf
+  Print "Starting Nginx"
+  systemctl enable nginx
+  systemctl start nginx
+  ps -ef | grep nginx >> $log_file
+  Stat $? "Nginx Start \t\t\t"
 }
 
 ###################### MONGO-DB ############################
