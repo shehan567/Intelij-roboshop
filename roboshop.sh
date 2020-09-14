@@ -101,8 +101,14 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mong
 yum install mongodb-org -y &>> log_file
 Stat $? "MongoDB Installation \t\t\t"
 
-Print "Update MongoDB Configuration"
+Print "Updating MongoDB Configuration"
+sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
+Stat $? "IP Address Change"
 
+Print "Starting MongoDB Service"
+systemctl enable mongod
+systemctl start mongod
+Stat "MongoDB Start"
 
 }
 
