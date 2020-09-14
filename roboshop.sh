@@ -70,7 +70,7 @@ Roboshop_ID() {
   id roboshop &>> $log_functions
   case $? in
   0)
-    Print "Roboshop User Exist"
+    echo -e "\e[1;4;31mRoboshop User Exist\e[0m"
     ;;
   *)
     Print "Adding Roboshop User"
