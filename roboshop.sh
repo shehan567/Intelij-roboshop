@@ -67,7 +67,7 @@ Node_JS() {
 
 ##################### Roboshop User Verification ############################
 Roboshop_ID() {
-  id roboshop
+  id roboshop &>> $log_functions
   case $? in
   0)
     Print "Roboshop User Exist"
