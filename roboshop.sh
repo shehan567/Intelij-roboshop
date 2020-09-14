@@ -120,10 +120,9 @@ unzip -o mongodb.zip &>> $log_file
 Stat $? "MongoDB Schema Extraction"
 
 Print "Loading Catalogue & User Schema"
-mongo < catalogue.js
+mongo < catalogue.js &>> $log_file
 Stat $? "Catalogue Schema Loading"
-
-mongo < users.js
+mongo < users.js &>> $log_file
 Stat $? "Users Schema Loading"
 
 }
