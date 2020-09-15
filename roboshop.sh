@@ -136,6 +136,8 @@ frontend () {
   mv static/* .
   rm -rf static README.md
   mv localhost.conf /etc/nginx/nginx.conf
+
+
   Print "Starting Nginx"
   systemctl enable nginx
   systemctl start nginx
@@ -202,6 +204,19 @@ catalogue () {
 
 redis () {
    Print "Installing Redis"
+    yum install epel-release yum-utils -y
+    Stat $? "Install YUM Utils"
+    yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
+    Stat $? "Download Remi Repos"
+    yum-config-manager --enable remi
+    Stat $? "Enabling Remi Repos"
+    yum install redis -y
+    Stat $? "Installing Redis"
+
+#    Print "Updating MongoDB Configuration"
+#    sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
+#    Stat $? "IP Address Change"
+
 }
 
 
