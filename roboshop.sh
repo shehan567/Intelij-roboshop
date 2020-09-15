@@ -85,7 +85,7 @@ Node_JS() {
   Stat $? "Roboshop User Permissions"
   Print "Setup $1 Service"
   mv /home/roboshop/$1/systemd.service /etc/systemd/system/$1.service
-  sed -i -e "s/MONGO_ENDPOINT/mongodb.${DNS_DOMAIN_NAME}" /etc/systemd/system/$1.service
+  sed -i -e "s/MONGO_ENDPOINT/mongodb.${DNS_DOMAIN_NAME}/" /etc/systemd/system/$1.service
   Print "Start $1 Service"
   systemctl daemon-reload
   systemctl enable $1
