@@ -72,11 +72,12 @@ Node_JS() {
   Print "Extracting Application Archive"
   mkdir -p /home/roboshop/$1
   cd /home/roboshop/$1
-  unzip -o /tmp/$1.zip >> $log_nodejs
+  unzip -o /tmp/$1.zip &>> $log_nodejs
   Print "Install NodeJS Dependencies"
-  npm --unsafe-perm install >> log_nodejs
+  npm --unsafe-perm install &>> log_nodejs
   Stat $? "NodeJS Dependencies Install"
   chown roboshop:roboshop /home/roboshop
+  Stat $? "Roboshop User Permissions"
 
 }
 
