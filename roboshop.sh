@@ -61,12 +61,22 @@ Stat_CONT() {
 
 Node_JS() {
   Print "Installing NodeJS"
-  yum install nodejs make gcc-c++ -y &>> $log_functions
+  log_nodejs=/tmp/nodejs.log
+  rm -f $log_nodejs
+  yum install nodejs make gcc-c++ -y &>> $log_nodejs
   Stat $? "NodeJS Install"
   Roboshop_ID
   Print "Downloading Catalogue Application"
   curl -s -L -o /tmp/$1.zip "$2"
   Stat $? "Catalogue Application Download"
+  Print "Extracting Application Archive"
+  mkdir -p /home/roboshop/$1
+  cd /home/roboshop/$1
+  unzip -o /tmp/$1.zip >> $log_nodejs
+  Print "Install NodeJS Dependencies"
+  npm --unsafe-perm install >> log_nodejs
+  Stat $? "NodeJS Dependencies Install"
+  chown roboshop:roboshop /home/roboshop
 
 }
 
