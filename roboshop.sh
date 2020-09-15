@@ -7,6 +7,10 @@
 log_functions=/tmp/functions.log
 rm -f $log_functions
 
+########################## Domain Name Translation ########################$$$$$
+
+DNS_DOMAIN_NAME="devopstrainingsolutions.com"
+
 ####################### To Display Installation Message on Screen ###############
 Print () {
   echo -e "\t\t\t\e[5;1;4;34m$1\e[0m"
@@ -80,13 +84,13 @@ Node_JS() {
   chown roboshop:roboshop /home/roboshop -R
   Stat $? "Roboshop User Permissions"
   Print "Setup $1 Service"
-  mv /home/roboshop/$1/systemd.service /etc/systemd/system/$1.service
-
-  Print "Start $1 Service"
-  systemctl daemon-reload
-  systemctl enable $1
-  systemctl start $1
-  Stat $? "Starting $1 Service"
+#  mv /home/roboshop/$1/systemd.service /etc/systemd/system/$1.service
+#
+#  Print "Start $1 Service"
+#  systemctl daemon-reload
+#  systemctl enable $1
+#  systemctl start $1
+#  Stat $? "Starting $1 Service"
 }
 
 ##################### Roboshop User Verification ############################
