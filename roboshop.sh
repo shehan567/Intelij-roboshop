@@ -297,7 +297,7 @@ Print "Starting MySQL"
   systemctl start mysqld
     Stat $? "Start MySQL"
 
-echo "show databases" | mysql -uroot -ppassword
+echo 'show databases;' | mysql -uroot -ppassword
 if [ $? -ne 0 ]; then
 
   Print "MySQL System Setup"
