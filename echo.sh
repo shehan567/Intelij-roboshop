@@ -1,0 +1,1 @@
+o 'show databases;' | mysql -uroot -ppassword
