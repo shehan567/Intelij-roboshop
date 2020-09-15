@@ -221,6 +221,11 @@ redis () {
       sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
       Stat $? "BindIP Address Change"
 
+    Print "Starting Redis"
+    systemctl enable redis
+    systemctl start redis
+    Stat $? "Starting Redis"
+
 }
 
 
