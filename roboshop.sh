@@ -208,7 +208,7 @@ redis () {
     log_file=/tmp/redis.log
     rm -f $log_file
 
-      yum install epel-release yum-utils -y &>> $log_file
+      yum install epel-release yum-utils -y
       Stat $? "Install YUM Utils"
       yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
       Stat $? "Download Remi Repos"
