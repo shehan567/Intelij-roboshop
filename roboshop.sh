@@ -79,7 +79,14 @@ Node_JS() {
   Stat $? "NodeJS Dependencies Install"
   chown roboshop:roboshop /home/roboshop -R
   Stat $? "Roboshop User Permissions"
+  Print "Setup $1 Service"
+  mv /home/roboshop/$1/systemd.service /etc/systemd/system/$1.service
 
+  Print "Start $1 Service"
+  systemctl daemon-reload
+  systemctl enable $1
+  sytemctl start $1
+  Stat $? "Starting $1 Service"
 }
 
 ##################### Roboshop User Verification ############################
