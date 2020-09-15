@@ -328,6 +328,8 @@ Stat $? "Extract Schema"
 
 mysql -u root -ppassword <shipping.sql
 
+}
+
 ###################### SHIPPING ############################
 
 shipping () {
