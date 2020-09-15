@@ -85,7 +85,7 @@ Node_JS() {
   Print "Start $1 Service"
   systemctl daemon-reload
   systemctl enable $1
-  sytemctl start $1
+  systemctl start $1
   Stat $? "Starting $1 Service"
 }
 
