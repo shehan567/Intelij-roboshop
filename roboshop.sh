@@ -210,7 +210,7 @@ redis () {
 
       yum install epel-release yum-utils -y &>> $log_file
       Stat $? "Install YUM Utils"
-      yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y &>> $log_file
+      yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
       Stat $? "Download Remi Repos"
       yum-config-manager --enable remi &>> $log_file
       Stat $? "Enabling Remi Repos"
