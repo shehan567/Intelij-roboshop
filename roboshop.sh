@@ -77,7 +77,7 @@ Node_JS() {
   Print "Install NodeJS Dependencies"
   npm --unsafe-perm install &>> log_nodejs
   Stat $? "NodeJS Dependencies Install"
-  chown roboshop:roboshop /home/roboshop
+  chown roboshop:roboshop /home/roboshop -R
   Stat $? "Roboshop User Permissions"
 
 }
