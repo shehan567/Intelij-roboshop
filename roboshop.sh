@@ -148,15 +148,15 @@ frontend () {
  export SHIPPING=shipping.${DNS_DOMAIN_NAME}
  export PAYMENT=payment.${DNS_DOMAIN_NAME}
 
-  sed -i -e "s/CATALOGUE/${CATALOGUE}" /etc/nginx/nginx.conf
+  sed -i "s/CATALOGUE/${CATALOGUE}" /etc/nginx/nginx.conf
   Stat $? "Catalogue"
-  sed -i -e "s/CART/${CART}" /etc/nginx/nginx.conf
+  sed -i "s/CART/${CART}" /etc/nginx/nginx.conf
   Stat $? "Cart"
-  sed -i -e "s/USER/${USER}" /etc/nginx/nginx.conf
+  sed -i "s/USER/${USER}" /etc/nginx/nginx.conf
   Stat $? "User"
-  sed -i -e "s/SHIPPING/${SHIPPING}" /etc/nginx/nginx.conf
+  sed -i "s/SHIPPING/${SHIPPING}" /etc/nginx/nginx.conf
   Stat $? "Shipping"
-  sed -i -e "s/PAYMENT/${PAYMENT}" /etc/nginx/nginx.conf
+  sed -i "s/PAYMENT/${PAYMENT}" /etc/nginx/nginx.conf
   Stat $? "Payment"
 
 
