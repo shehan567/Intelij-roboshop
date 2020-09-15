@@ -271,28 +271,38 @@ cart () {
 ###################### MySQL ############################
 
 mysql () {
-Print "Installing MySQL"
 log_file=/tmp/mysql.log
 rm -f $log_file
-  curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-    Stat $? "Download MySQL"
-  cd /tmp
-  tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-    Stat $? "Extract MySQL"
 
-Print "Installing MySQL"
-  yum remove mariadb-libs -y &>> $log_file
-    Stat $? "Remove MariaDB"
-  yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+yum list installed | grep mysql-community-server   ### Validate MySQL Previously installed
+  if [ $? -ne 0 ]; then
+    Print "Installing MySQL"
+      curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+        Stat $? "Download MySQL"
+      cd /tmp
+      tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+        Stat $? "Extract MySQL"
+    Print "Installing MySQL"
+      yum remove mariadb-libs -y &>> $log_file
+        Stat $? "Remove MariaDB"
+      yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
               mysql-community-common-5.7.28-1.el7.x86_64.rpm \
               mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
               mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
-    Stat $? "Install MySQL"
+        Stat $? "Install MySQL"
+  fi
 
 Print "Starting MySQL"
   systemctl enable mysqld
   systemctl start mysqld
     Stat $? "Start MySQL"
+
+Print "MySQL System Setup"
+echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-paswd.mysql
+
+ROOT_PASSWORD=$(sudo grep "A temporary password" /var/log/mysqld.log | awk '{print $NF}')
+mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-paswd.mysql
+
 }
 
 ###################### SHIPPING ############################
