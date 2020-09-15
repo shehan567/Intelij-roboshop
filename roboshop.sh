@@ -296,14 +296,14 @@ Print "Starting MySQL"
   systemctl enable mysqld
   systemctl start mysqld
     Stat $? "Start MySQL"
-  echo 'show databases;' | mysql -uroot -ppassword
-#  if [ $? -ne 0 ]; then
-#      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
-#      ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
-#      Print "Reset MySQL Password"
-#      mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
-#      Stat $? "MYSQL Update"
-#  fi
+#  echo 'show databases;' | mysql -uroot -ppassword
+##  if [ $? -ne 0 ]; then
+##      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
+##      ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
+##      Print "Reset MySQL Password"
+##      mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
+##      Stat $? "MYSQL Update"
+##  fi
 
 
 #echo 'show databases;' | mysql -uroot -ppassword
@@ -317,12 +317,25 @@ Print "Starting MySQL"
 #      Stat $? "MySQL Set-up"
 #fi
 
-}
+Print "Downloading Shipping ASchema"
+
+curl -s -L -o /tmp/mysql.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/af9ec0c1-9056-4c0e-8ea3-76a83aa36324/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+Stat $? "Donwload Complete"
+
+cd /tmp
+unzip -0 mysql.zip
+Stat $? "Extract Schema"
+
+mysql -u root -ppassword <shipping.sql
 
 ###################### SHIPPING ############################
 
 shipping () {
-   Print "Installing Shipping Service"
+  Print "Installing Shipping Service"
+    yum install maven -y
+      Stat $? "Installed Maven"
+    Roboshop_ID
+
 }
 
 ###################### RabbitMQ ############################
