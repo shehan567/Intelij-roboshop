@@ -73,6 +73,7 @@ Node_JS() {
   mkdir -p /home/roboshop/$1
   cd /home/roboshop/$1
   unzip -o /tmp/$1.zip &>> $log_nodejs
+  Stat $? "Application Archives Extraction"
   Print "Install NodeJS Dependencies"
   npm --unsafe-perm install &>> log_nodejs
   Stat $? "NodeJS Dependencies Install"
