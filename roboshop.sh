@@ -297,11 +297,16 @@ Print "Starting MySQL"
   systemctl start mysqld
     Stat $? "Start MySQL"
 
-Print "MySQL System Setup"
-echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-paswd.mysql
+echo "show databases" | mysql -uroot -ppassword
+if [ $? -ne 0 ]; then
 
-ROOT_PASSWORD=$(grep "A temporary password" /var/log/mysqld.log | awk '{print $NF}')
-mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-paswd.mysql
+  Print "MySQL System Setup"
+    echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-paswd.mysql
+
+  ROOT_PASSWORD=$(grep "A temporary password" /var/log/mysqld.log | awk '{print $NF}')
+    mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-paswd.mysql
+      Stat $? "MySQL Set-up"
+fi
 
 }
 
