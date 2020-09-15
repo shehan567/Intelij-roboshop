@@ -148,19 +148,19 @@ frontend () {
  export SHIPPING=shipping.${DNS_DOMAIN_NAME}
  export PAYMENT=payment.${DNS_DOMAIN_NAME}
 
-  sed -i -e "s/CATALOGUE/${CATALOGUE}/" -e "s/CART/${CART}/" -e "s/USER/${USER}/" -e "s/SHIPPING/${SHIPPING}/" -e "s/PAYMENT/${PAYMENT}/" /etc/nginx/nginx.conf
-
-  Stat_CONT $? "Update DNS"
-#  sed -i "s/CATALOGUE/${CATALOGUE}" /etc/nginx/nginx.conf
-#  Stat $? "Catalogue"
-#  sed -i "s/CART/${CART}" /etc/nginx/nginx.conf
-#  Stat $? "Cart"
-#  sed -i "s/USER/${USER}" /etc/nginx/nginx.conf
-#  Stat $? "User"
-#  sed -i "s/SHIPPING/${SHIPPING}" /etc/nginx/nginx.conf
-#  Stat $? "Shipping"
-#  sed -i "s/PAYMENT/${PAYMENT}" /etc/nginx/nginx.conf
-#  Stat $? "Payment"
+#  sed -i -e "s/CATALOGUE/${CATALOGUE}/" -e "s/CART/${CART}/" -e "s/USER/${USER}/" -e "s/SHIPPING/${SHIPPING}/" -e "s/PAYMENT/${PAYMENT}/" /etc/nginx/nginx.conf
+#
+#  Stat_CONT $? "Update DNS"
+  sed -i "s/CATALOGUE/${CATALOGUE}/" /etc/nginx/nginx.conf
+  Stat $? "Catalogue"
+  sed -i "s/CART/${CART}/" /etc/nginx/nginx.conf
+  Stat $? "Cart"
+  sed -i "s/USER/${USER}/" /etc/nginx/nginx.conf
+  Stat $? "User"
+  sed -i "s/SHIPPING/${SHIPPING}/" /etc/nginx/nginx.conf
+  Stat $? "Shipping"
+  sed -i "s/PAYMENT/${PAYMENT}/" /etc/nginx/nginx.conf
+  Stat $? "Payment"
 
 
   Print "Starting Nginx"
