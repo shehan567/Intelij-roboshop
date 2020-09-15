@@ -220,12 +220,9 @@ catalogue () {
   rm -f $log_file
   Node_JS "catalogue" "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/558568c8-174a-4076-af6c-51bf129e93bb/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
 
-
 }
 
-
-
-###################### MONGO-DB ############################
+###################### REDIS ############################
 
 redis () {
    Print "Installing Redis"
@@ -253,7 +250,6 @@ redis () {
 
 }
 
-
 ###################### USER ############################
 
 user () {
@@ -262,8 +258,6 @@ user () {
     rm -f $log_file
     Node_JS "user" "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/e911c2cd-340f-4dc6-a688-5368e654397c/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
 }
-
-
 
 ###################### CART ############################
 
@@ -277,7 +271,28 @@ cart () {
 ###################### MySQL ############################
 
 mysql () {
-   Print "Installing MySQL"
+Print "Installing MySQL"
+log_file=/tmp/mysql.log
+rm -f $log_file
+  curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+    Stat $? "Download MySQL"
+  cd /tmp
+  tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+    Stat $? "Extract MySQL"
+
+Print "Installing MySQL"
+  yum remove mariadb-libs -y &>> $log_file
+    Stat $? "Remove MariaDB"
+  yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+              mysql-community-common-5.7.28-1.el7.x86_64.rpm \
+              mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
+              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
+    Stat $? "Install MySQL"
+
+Print "Starting MySQL"
+  systemctl enable mysqld
+  systemctl start mysqld
+    Stat $? "Start MySQL"
 }
 
 ###################### SHIPPING ############################
