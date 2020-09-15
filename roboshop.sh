@@ -323,7 +323,7 @@ curl -s -L -o /tmp/mysql.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d
 Stat $? "Donwload Complete"
 
 cd /tmp
-unzip -0 mysql.zip
+unzip -o mysql.zip
 Stat $? "Extract Schema"
 
 mysql -u root -ppassword <shipping.sql
