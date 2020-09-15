@@ -135,7 +135,18 @@ frontend () {
   Stat $? "Extracting Frontend Schema \t\t"
   mv static/* .
   rm -rf static README.md
-  mv localhost.conf /etc/nginx/nginx.conf
+  mv template.conf /etc/nginx/nginx.conf
+
+  Print "Update DNS_DOMAINS in .conf file"
+
+  CATALOGUE=catalogue.${DNS_DOMAIN_NAME}
+  CART=cart.${DNS_DOMAIN_NAME}
+  USER=user.${DNS_DOMAIN_NAME}
+  SHIPPING=shipping.${DNS_DOMAIN_NAME}
+  PAYMENT=payment.${DNS_DOMAIN_NAME}
+
+  sed -i -e "s/CATALOGUE/${CATALOGUE}" -e "s/CART/${CART}" -e "s/USER/${USER}" -e "s/SHIPPING/${SHIPPING}" -e "s/PAYMENT/${PAYMENT}" /etc/nginx/nginx.conf
+  Stat $? "DNS Update"
 
 
   Print "Starting Nginx"
