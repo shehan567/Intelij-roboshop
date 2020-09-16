@@ -339,6 +339,27 @@ shipping () {
     yum install maven -y
       Stat $? "Installed Maven"
     Roboshop_ID
+    cd /home/roboshop
+  Print "Downloading Shipping Data"
+    curl -s -L -o /tmp/shipping.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/e13afea5-9e0d-4698-b2f9-ed853c78ccc7/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+      Stat $? "Shipping Data Download"
+    mkdir shipping
+    cd shipping
+  Print "Extracting Shipping Data"
+    unzip -o /tmp/shipping.zip
+      Stat $? "Shipping Data Extraction"
+    mvn clean package
+      Stat $? "MVN Clean pkg"
+    mv target/*dependencies.jar shipping.jar
+
+  Print "Adding Shipping Service to systemd"
+    cp /home/roboshop/shipping/systemd.service /etc/systemd/system/shipping.service
+      Stat $? "Shipping Service Added to Systemd"
+  Print "Starting Shipping Service"
+    systemctl daemon-reload
+    systemctl enable shipping
+    systemctl start shipping
+      Stat $? "Shipping Service Start"
 
 }
 
