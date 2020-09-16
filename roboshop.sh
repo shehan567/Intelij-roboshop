@@ -49,6 +49,21 @@ Stat() {
   esac
 }
 
+######################################### Status_Check#########################################
+
+Status_Check() {
+  case $1 in
+  0)
+    echo -e "$2 - \e[32mSUCCESS\e[0m"
+    ;;
+  *)
+    echo -e "$2 - \e[31mFAILED\e[0m"
+    exit 1
+    ;;
+  esac
+}
+
+
 ########### Function to verify the operation is successful or not only, but continue to next step.
 Stat_CONT() {
   case $1 in
