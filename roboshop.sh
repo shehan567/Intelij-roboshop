@@ -449,7 +449,31 @@ rm -f $log_file
 ###################### PAYMENT ############################
 
 payment () {
-   Print "Installing Payment Service"
+  Print "Installing Payment Service"
+  Roboshop_ID
+  Print "Install Python"
+  yum install python36 gcc python3-devel -y
+    Stat $? "Install Python"
+  Print "Download Application"
+  curl -L -s -o /tmp/payment.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/02fde8af-1af6-44f3-8bc7-a47c74e95311/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+    Stat $? "Download Application"
+  cd /home/roboshop
+  mkdir payment
+  cd payment
+  Print "Extract Archive"
+  unzip -o /tmp/payment.zip
+    Stat $? "Extraction"
+  Print "Install Dependencies"
+  pip3 install -r requirements.txt
+    Stat $? "Dependencies Install"
+  chown roboshop:roboshop /home/roboshop -R
+  mv /home/roboshop/payment/systemd.service /etc/systemd/system/payment.service
+  sed -i -e "s/CARTHOST/cart.${DNS_DOMAIN_NAME}/" -e "s/USERHOST/user.${DNS_DOMAIN_NAME}/" -e "s/AMQPHOST/rabbitmq.${DNS_DOMAIN_NAME}/" /etc/systemd/system/payment.service
+  systemctl daemon-reload
+  systemctl enable payment
+  Print "Start Payment Service"
+  systemctl start payment
+    Stat $? "Start Payment"
 }
 
 
