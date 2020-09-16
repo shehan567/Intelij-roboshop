@@ -286,79 +286,79 @@ cart () {
 ###################### MySQL ############################
 
 mysql () {
-    yum list installed | grep mysql-community-server
+#    yum list installed | grep mysql-community-server
+#  if [ $? -ne 0 ]; then
+#    Print "Download MySQL"
+#    curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+#    Status_Check
+#    cd /tmp
+#    Print "Extract Archive"
+#    tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+#    Status_Check
+#    yum remove mariadb-libs -y
+#    Print "Install MySQL"
+#    yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-common-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y
+#    Status_Check
+#  fi
+#  systemctl enable mysqld
+#  Print "Start MySQL"
+#  systemctl start mysqld
+#  Status_Check
+#  echo 'show databases;' | mysql -uroot -ppassword
+#  if [ $? -ne 0 ]; then
+#      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
+#      ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
+#      Print "Reset MySQL Password"
+#      mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
+#      Status_Check
+#  fi
+#  Print "Download Schema"
+#  curl -s -L -o /tmp/mysql.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/af9ec0c1-9056-4c0e-8ea3-76a83aa36324/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+#  Status_Check
+#  Print "Extract Schema"
+#  cd /tmp
+#  unzip -o mysql.zip
+#  Status_Check
+#  Print "Load Schema"
+#  mysql -u root -ppassword <shipping.sql
+#  Status_Check
+
+log_file=/tmp/mysql.log
+rm -f $log_file
+
+yum list installed | grep mysql-community-server   ### Validate MySQL Previously installed
   if [ $? -ne 0 ]; then
-    Print "Download MySQL"
-    curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
-    Status_Check
-    cd /tmp
-    Print "Extract Archive"
-    tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
-    Status_Check
-    yum remove mariadb-libs -y
-    Print "Install MySQL"
-    yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+    Print "Installing MySQL"
+      curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+        Stat $? "Download MySQL"
+      cd /tmp
+      tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+        Stat $? "Extract MySQL"
+    Print "Installing MySQL"
+      yum remove mariadb-libs -y &>> $log_file
+        Stat $? "Remove MariaDB"
+      yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
               mysql-community-common-5.7.28-1.el7.x86_64.rpm \
               mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
-              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y
-    Status_Check
+              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
+        Stat $? "Install MySQL"
   fi
+
+Print "Starting MySQL"
   systemctl enable mysqld
-  Print "Start MySQL"
   systemctl start mysqld
-  Status_Check
+    Stat $? "Start MySQL"
   echo 'show databases;' | mysql -uroot -ppassword
   if [ $? -ne 0 ]; then
       echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
       ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
       Print "Reset MySQL Password"
       mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
-      Status_Check
+      Stat $? "MYSQL Update"
   fi
-  Print "Download Schema"
-  curl -s -L -o /tmp/mysql.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/af9ec0c1-9056-4c0e-8ea3-76a83aa36324/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
-  Status_Check
-  Print "Extract Schema"
-  cd /tmp
-  unzip -o mysql.zip
-  Status_Check
-  Print "Load Schema"
-  mysql -u root -ppassword <shipping.sql
-  Status_Check
-
-#log_file=/tmp/mysql.log
-#rm -f $log_file
-#
-#yum list installed | grep mysql-community-server   ### Validate MySQL Previously installed
-#  if [ $? -ne 0 ]; then
-#    Print "Installing MySQL"
-#      curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-#        Stat $? "Download MySQL"
-#      cd /tmp
-#      tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-#        Stat $? "Extract MySQL"
-#    Print "Installing MySQL"
-#      yum remove mariadb-libs -y &>> $log_file
-#        Stat $? "Remove MariaDB"
-#      yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
-#              mysql-community-common-5.7.28-1.el7.x86_64.rpm \
-#              mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
-#              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
-#        Stat $? "Install MySQL"
-#  fi
-#
-#Print "Starting MySQL"
-#  systemctl enable mysqld
-#  systemctl start mysqld
-#    Stat $? "Start MySQL"
-#  echo 'show databases;' | mysql -uroot -ppassword
-##  if [ $? -ne 0 ]; then
-##      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
-##      ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
-##      Print "Reset MySQL Password"
-##      mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
-##      Stat $? "MYSQL Update"
-##  fi
 
 
 echo 'show databases;' | mysql -uroot -ppassword
@@ -383,8 +383,6 @@ mysql -uroot -ppassword <shipping.sql
 
 Stat $? "Extract Schema"
 
-
-
 }
 
 ###################### SHIPPING ############################
@@ -395,24 +393,24 @@ log_file=/tmp/shipping.log
 rm -f $log_file
 
   Print "Installing Shipping Service"
-    yum install maven -y &>> log_file
+    yum install maven -y &>> $log_file
       Stat $? "Installed Maven"
     Roboshop_ID
     cd /home/roboshop
   Print "Downloading Shipping Data"
-    curl -s -L -o /tmp/shipping.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/e13afea5-9e0d-4698-b2f9-ed853c78ccc7/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+    curl -s -L -o /tmp/shipping.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/e13afea5-9e0d-4698-b2f9-ed853c78ccc7/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true" &>> $log_file
       Stat $? "Shipping Data Download"
     mkdir shipping
     cd shipping
   Print "Extracting Shipping Data"
-    unzip -o /tmp/shipping.zip &>> log_file
+    unzip -o /tmp/shipping.zip &>> $log_file
       Stat $? "Shipping Data Extraction"
-    mvn clean package &>> log_file
+    mvn clean package &>> $log_file
       Stat $? "MVN Clean pkg"
     mv target/*dependencies.jar shipping.jar
 
   Print "Adding Shipping Service to systemd"
-    cp /home/roboshop/shipping/systemd.service /etc/systemd/system/shipping.service &>> log_file
+    cp /home/roboshop/shipping/systemd.service /etc/systemd/system/shipping.service &>> $log_file
       Stat $? "Shipping Service Added to Systemd"
   Print "Starting Shipping Service"
     systemctl daemon-reload
@@ -425,7 +423,27 @@ rm -f $log_file
 ###################### RabbitMQ ############################
 
 rabbitmq () {
+log_file=/tmp/rabbitmq.log
+rm -f $log_file
+
    Print "Installing RabbitMQ"
+    yum install https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_22.2.1-1~centos~7_amd64.rpm -y &>> $log_file
+      Stat $? "Install ErLang"
+    curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash &>> $log_file
+      Stat $? "Install RabbitMQ Repos"
+    yum install rabbitmq-server -y  &>> $log_file
+      Stat $? "RabbitMQ Server Install"
+
+  Print "Starting RabbitMQ Server"
+    systemctl enable rabbitmq-server
+    systemctl start rabbitmq-server
+      Stat $? "RabbitMQ Server Start"
+
+  Print "Create App User in RabbitMQ"
+    rabbitmqctl add_user roboshop roboshop123
+    rabbitmqctl set_user_tags roboshop administrator
+    rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+      Stat $? "App User Creation"
 }
 
 ###################### PAYMENT ############################
