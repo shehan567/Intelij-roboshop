@@ -335,8 +335,12 @@ Stat $? "Extract Schema"
 ###################### SHIPPING ############################
 
 shipping () {
+
+log_file=/tmp/shipping.log
+rm -f $log_file
+
   Print "Installing Shipping Service"
-    yum install maven -y
+    yum install maven -y &>> log_file
       Stat $? "Installed Maven"
     Roboshop_ID
     cd /home/roboshop
@@ -346,14 +350,14 @@ shipping () {
     mkdir shipping
     cd shipping
   Print "Extracting Shipping Data"
-    unzip -o /tmp/shipping.zip
+    unzip -o /tmp/shipping.zip &>> log_file
       Stat $? "Shipping Data Extraction"
     mvn clean package
       Stat $? "MVN Clean pkg"
     mv target/*dependencies.jar shipping.jar
 
   Print "Adding Shipping Service to systemd"
-    cp /home/roboshop/shipping/systemd.service /etc/systemd/system/shipping.service
+    cp /home/roboshop/shipping/systemd.service /etc/systemd/system/shipping.service &>> log_file
       Stat $? "Shipping Service Added to Systemd"
   Print "Starting Shipping Service"
     systemctl daemon-reload
