@@ -351,6 +351,7 @@ Print "Starting MySQL"
   systemctl enable mysqld
   systemctl start mysqld
     Stat $? "Start MySQL"
+
   echo 'show databases;' | mysql -uroot -ppassword
   if [ $? -ne 0 ]; then
       echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
@@ -361,16 +362,6 @@ Print "Starting MySQL"
   fi
 
 
-echo 'show databases;' | mysql -uroot -ppassword
-if [ $? -ne 0 ]; then
-
-  Print "MySQL System Setup"
-    echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-paswd.mysql
-
-  ROOT_PASSWORD=$(grep "A temporary password" /var/log/mysqld.log | awk '{print $NF}')
-    mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-paswd.mysql
-      Stat $? "MySQL Set-up"
-fi
 
 Print "Downloading Shipping ASchema"
 
