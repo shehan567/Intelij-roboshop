@@ -324,9 +324,11 @@ Stat $? "Donwload Complete"
 
 cd /tmp
 unzip -o mysql.zip
+mysql -uroot -ppassword <shipping.sql
+
 Stat $? "Extract Schema"
 
-#mysql -uroot -ppassword <shipping.sql
+
 
 }
 
