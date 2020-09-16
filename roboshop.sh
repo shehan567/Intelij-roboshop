@@ -326,7 +326,7 @@ cd /tmp
 unzip -o mysql.zip
 Stat $? "Extract Schema"
 
-mysql -uroot -ppassword <shipping.sql
+#mysql -uroot -ppassword <shipping.sql
 
 }
 
