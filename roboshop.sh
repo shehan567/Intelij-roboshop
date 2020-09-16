@@ -352,7 +352,7 @@ rm -f $log_file
   Print "Extracting Shipping Data"
     unzip -o /tmp/shipping.zip &>> log_file
       Stat $? "Shipping Data Extraction"
-    mvn clean package
+    mvn clean package &>> log_file
       Stat $? "MVN Clean pkg"
     mv target/*dependencies.jar shipping.jar
 
