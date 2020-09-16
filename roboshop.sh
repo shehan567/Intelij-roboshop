@@ -271,31 +271,71 @@ cart () {
 ###################### MySQL ############################
 
 mysql () {
-log_file=/tmp/mysql.log
-rm -f $log_file
-
-yum list installed | grep mysql-community-server   ### Validate MySQL Previously installed
+    yum list installed | grep mysql-community-server
   if [ $? -ne 0 ]; then
-    Print "Installing MySQL"
-      curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-        Stat $? "Download MySQL"
-      cd /tmp
-      tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
-        Stat $? "Extract MySQL"
-    Print "Installing MySQL"
-      yum remove mariadb-libs -y &>> $log_file
-        Stat $? "Remove MariaDB"
-      yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+    Print "Download MySQL"
+    curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+    Status_Check
+    cd /tmp
+    Print "Extract Archive"
+    tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+    Status_Check
+    yum remove mariadb-libs -y
+    Print "Install MySQL"
+    yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
               mysql-community-common-5.7.28-1.el7.x86_64.rpm \
               mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
-              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
-        Stat $? "Install MySQL"
+              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y
+    Status_Check
   fi
-
-Print "Starting MySQL"
   systemctl enable mysqld
+  Print "Start MySQL"
   systemctl start mysqld
-    Stat $? "Start MySQL"
+  Status_Check
+  echo 'show databases;' | mysql -uroot -ppassword
+  if [ $? -ne 0 ]; then
+      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
+      ROOT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
+      Print "Reset MySQL Password"
+      mysql -uroot -p"${ROOT_PASSWORD}" < /tmp/reset-password.sql
+      Status_Check
+  fi
+  Print "Download Schema"
+  curl -s -L -o /tmp/mysql.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/af9ec0c1-9056-4c0e-8ea3-76a83aa36324/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+  Status_Check
+  Print "Extract Schema"
+  cd /tmp
+  unzip -o mysql.zip
+  Status_Check
+  Print "Load Schema"
+  mysql -u root -ppassword <shipping.sql
+  Status_Check
+
+#log_file=/tmp/mysql.log
+#rm -f $log_file
+#
+#yum list installed | grep mysql-community-server   ### Validate MySQL Previously installed
+#  if [ $? -ne 0 ]; then
+#    Print "Installing MySQL"
+#      curl -L -o /tmp/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar https://downloads.mysql.com/archives/get/p/23/file/mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+#        Stat $? "Download MySQL"
+#      cd /tmp
+#      tar -xf mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar &>> $log_file
+#        Stat $? "Extract MySQL"
+#    Print "Installing MySQL"
+#      yum remove mariadb-libs -y &>> $log_file
+#        Stat $? "Remove MariaDB"
+#      yum install mysql-community-client-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-common-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-libs-5.7.28-1.el7.x86_64.rpm \
+#              mysql-community-server-5.7.28-1.el7.x86_64.rpm -y &>> log_file
+#        Stat $? "Install MySQL"
+#  fi
+#
+#Print "Starting MySQL"
+#  systemctl enable mysqld
+#  systemctl start mysqld
+#    Stat $? "Start MySQL"
 #  echo 'show databases;' | mysql -uroot -ppassword
 ##  if [ $? -ne 0 ]; then
 ##      echo -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password@1';\nuninstall plugin validate_password;\nALTER USER 'root'@'localhost' IDENTIFIED BY 'password';" >/tmp/reset-password.sql
