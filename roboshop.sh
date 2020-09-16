@@ -306,7 +306,7 @@ Print "Starting MySQL"
 ##  fi
 
 
-#echo 'show databases;' | mysql -uroot -ppassword
+echo 'show databases;' | mysql -uroot -ppassword
 if [ $? -ne 0 ]; then
 
   Print "MySQL System Setup"
@@ -324,7 +324,7 @@ Stat $? "Donwload Complete"
 
 cd /tmp
 unzip -o mysql.zip
-#mysql -uroot -ppassword <shipping.sql
+mysql -uroot -ppassword <shipping.sql
 
 Stat $? "Extract Schema"
 
