@@ -416,10 +416,12 @@ rm -f $log_file
 rabbitmq () {
 log_file=/tmp/rabbitmq.log
 rm -f $log_file
-
+yum list installed | grep esl-erlang.x86_64
+ if [ $? -ne 0 ]; then
    Print "Installing RabbitMQ"
     yum install https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_22.2.1-1~centos~7_amd64.rpm -y &>> $log_file
       Stat $? "Install ErLang"
+fi
     curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash &>> $log_file
       Stat $? "Install RabbitMQ Repos"
     yum install rabbitmq-server -y  &>> $log_file
