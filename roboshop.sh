@@ -442,22 +442,24 @@ fi
 ###################### PAYMENT ############################
 
 payment () {
+log_file=/tmp/payment.log
+rm -f $log_file
   Print "Installing Payment Service"
   Roboshop_ID
   Print "Install Python"
-  yum install python36 gcc python3-devel -y
+  yum install python36 gcc python3-devel -y &>> $log_file
     Stat $? "Install Python"
   Print "Download Application"
-  curl -L -s -o /tmp/payment.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/02fde8af-1af6-44f3-8bc7-a47c74e95311/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true"
+  curl -L -s -o /tmp/payment.zip "https://dev.azure.com/DevOps-Batches/ce99914a-0f7d-4c46-9ccc-e4d025115ea9/_apis/git/repositories/02fde8af-1af6-44f3-8bc7-a47c74e95311/items?path=%2F&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=zip&api-version=5.0&download=true" &>> $log_file
     Stat $? "Download Application"
   cd /home/roboshop
   mkdir payment
   cd payment
   Print "Extract Archive"
-  unzip -o /tmp/payment.zip
+  unzip -o /tmp/payment.zip &>> $log_file
     Stat $? "Extraction"
   Print "Install Dependencies"
-  pip3 install -r requirements.txt
+  pip3 install -r requirements.txt &>> $log_file
     Stat $? "Dependencies Install"
   chown roboshop:roboshop /home/roboshop -R
   mv /home/roboshop/payment/systemd.service /etc/systemd/system/payment.service
