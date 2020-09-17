@@ -471,7 +471,11 @@ rm -f $log_file
     Stat $? "Start Payment"
 }
 
-
+NGINX(){
+  Print "Restarting Nginx"
+  systemctl restart nginx
+  Stat $? "Nginx Restart"
+}
 
 # Main Program
 
@@ -506,6 +510,9 @@ case $1 in
   payment)
     payment
     ;;
+  NGINX)
+    NGINX
+    ;;
   all)
     frontend
     mongodb
@@ -517,6 +524,7 @@ case $1 in
     shipping
     rabbitmq
     payment
+    NGINX
     ;;
   *)
     USAGE
