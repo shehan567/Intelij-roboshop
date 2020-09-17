@@ -19,7 +19,7 @@ Print () {
 ################ To Notify that user must select a component to install################
 USAGE() {
   echo -e "Usage\t\t\t : $0 \e[1;4;30m<Choose a Component from the below list to install>\e[0m"
-  echo -e "Components\t\t : \e[32mfrontend \e[33mmongodb \e[34mredis \e[35mmysql \e[36mrabbitmq \e[34mcart \e[32mcatalogue \e[33mshipping \e[34mpayment \e[35muser\e[0m"
+  echo -e "Components\t\t : \e[32mfrontend \e[33mmongodb \e[34mredis \e[35mMYSQL \e[36mrabbitmq \e[34mcart \e[32mcatalogue \e[33mshipping \e[34mpayment \e[35muser\e[0m"
   echo -e "For all components use\t : all"
   exit 2
 }
@@ -285,7 +285,7 @@ cart () {
 
 ###################### MySQL ############################
 
-mysql () {
+MYSQL () {
 #    yum list installed | grep mysql-community-server
 #  if [ $? -ne 0 ]; then
 #    Print "Download MySQL"
@@ -490,8 +490,8 @@ case $1 in
   cart)
     cart
     ;;
-  mysql)
-    mysql
+  MYSQL)
+    MYSQL
     ;;
   shipping)
     shipping
@@ -509,7 +509,7 @@ case $1 in
     redis
     user
     cart
-    mysql
+    MYSQL
     shipping
     rabbitmq
     payment
